@@ -4,8 +4,7 @@ from simple_chalk import chalk
 res = requests.get('https://news.ycombinator.com/')
 
 soup = BeautifulSoup(res.text, 'html.parser')
-# print(soup.body)
-# print(soup.find_all('a'))
+
 s = soup.select('.score')
 story = soup.select('.athing')
 tags = []
@@ -29,8 +28,11 @@ for i in story:
     if int(i['id']) in z_tags:
         story_id.append(int(i['id']))
 result = []
+f = open('data.txt','a')
 for i in story:
     if int(i['id']) in story_id:
         t = i.find('a','storylink')
-        print(f"{chalk.yellow.bold(t.text)} {chalk.magenta.dim(t['href'])}")     
+        print(f"{chalk.yellow.bold(t.text)} {chalk.magenta.dim(t['href'])}")  
+        f.write(f"{t.text} {t['href']}\n")   
         print()     
+f.close()        
